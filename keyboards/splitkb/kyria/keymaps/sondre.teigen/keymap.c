@@ -271,23 +271,49 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
         // Up/Down
         if (clockwise) {
-            tap_code(KC_DOWN);
+            switch(get_highest_layer(layer_state|default_layer_state)) {
+            case _FUNCTION:
+                tap_code(KC_MS_DOWN);
+                break;
+            default:
+                tap_code(KC_DOWN);
+                break;
+            }
         } else {
-            tap_code(KC_UP);
+            switch(get_highest_layer(layer_state|default_layer_state)) {
+            case _FUNCTION:
+                tap_code(KC_MS_UP);
+                break;
+            default:
+                tap_code(KC_UP);
+                break;
+            }
         }
     } else if (index == 1) {
         // Left/Right
         if (clockwise) {
-            if(get_highest_layer(layer_state|default_layer_state)==_NAV){
-                tap_code(KC_DOWN);        
-            } else {
-                tap_code(KC_RGHT);
+            switch(get_highest_layer(layer_state|default_layer_state)) {
+            case _FUNCTION:
+                tap_code(KC_MS_RIGHT);
+                break;
+            case _NAV:
+                tap_code(KC_DOWN);
+                break;
+            default:
+                tap_code(KC_RIGHT);
+                break;
             }
         } else {
-            if(get_highest_layer(layer_state|default_layer_state)==_NAV){
+            switch(get_highest_layer(layer_state|default_layer_state)) {
+            case _FUNCTION:
+                tap_code(KC_MS_LEFT);
+                break;
+            case _NAV:
                 tap_code(KC_UP);
-            } else {
+                break;
+            default:
                 tap_code(KC_LEFT);
+                break;
             }
         }
     }
